@@ -18,9 +18,10 @@ async function run () {
     const serviceCollection = client.db('skConsultancy').collection('services')
 
     app.get('/services', async (req, res) => {
+      const limit = parseInt(req.query.limit) || 0
       const query = {}
       const cursor = serviceCollection.find(query)
-      const services = await cursor.toArray()
+      const services = await cursor.limit(limit).toArray()
 
       res.send(services)
     })
